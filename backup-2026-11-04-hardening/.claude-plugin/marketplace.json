@@ -1,0 +1,14 @@
+{
+  "name": "coding-guard",
+  "description": "Local marketplace for the coding-guard plugin.",
+  "owner": {
+    "name": "SamuelYhy"
+  },
+  "plugins": [
+    {
+      "name": "coding-guard",
+      "source": "./",
+      "description": "Cross-project guard hooks and cache hygiene rules."
+    }
+  ]
+}

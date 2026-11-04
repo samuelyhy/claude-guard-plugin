@@ -1,0 +1,15 @@
+{
+  "name": "coding-guard",
+  "displayName": "Coding Guard",
+  "version": "1.0.0",
+  "description": "Cross-project guard hooks, review agents, and cache hygiene rules extracted from v1-v8 optimization.",
+  "author": {
+    "name": "SamuelYhy"
+  },
+  "keywords": [
+    "guard",
+    "hooks",
+    "review",
+    "cache-hygiene"
+  ]
+}
