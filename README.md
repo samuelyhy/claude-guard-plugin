@@ -21,8 +21,9 @@ Claude Code 的跨项目防护插件：规格（spec）优先的文件面门禁�
 先把本仓库注册为插件市场，再**只为当前项目**安装：
 
 ```bash
-# 1. 注册市场（路径或 URL 指向包含 .claude-plugin/marketplace.json 的目录）
-claude plugin marketplace add <插件市场路径或URL>
+# 1. 注册市场（公开仓库）
+claude plugin marketplace add samuelyhy/claude-guard-plugin
+# 本地开发或私有镜像：claude plugin marketplace add <插件市场路径或URL>
 
 # 2. 只安装到当前项目（--scope local）
 claude plugin install coding-guard@coding-guard --scope local
@@ -90,7 +91,7 @@ claude --plugin-dir <本仓库路径>
 脚本依次从 PATH 上的 `claude`、`CLAUDE_CODE_EXECPATH`（VSCode 扩展环境通常只设后者）
 寻找 CLI；两者都没有时直接失败，不会静默跳过。
 
-当前使用显式语义化版本（`1.0.0`）：每次发布前递增 `.claude-plugin/plugin.json` 的
+当前使用显式语义化版本（`1.0.1`）：每次发布前递增 `.claude-plugin/plugin.json` 的
 `version`，否则缓存型安装的 `plugin update` 不会拉取新内容。
 
 ## 依赖基线

@@ -2,14 +2,14 @@
 
 ## 执行环境
 
-- 工作目录：`D:\workSpace\claude-guard-plugin`（含 `.claude-plugin/plugin.json`，确认是插件根目录）。
+- 工作目录：`<plugin-root>`（含 `.claude-plugin/plugin.json`，确认是插件根目录）。
 - 工具：Claude Code CLI `2.1.318`（经 `CLAUDE_CODE_EXECPATH` 直接调用，未加入 PATH）；Node.js `v22.16.0`；Git Bash / POSIX sh。
 - 备份：`./backup-2026-11-04-hardening/`（11 个文件，覆盖全部被修改文件）。
 - 未执行任何 `git add` / `git reset` / `git commit`。
 - **异常但非本轮所为**：插件源码目录在 17:25 出现 `.git/` 与 `c3ed834 first commit`
   （提交内容包含 `backup-2026-11-04-hardening/`），随后部分改动处于暂存区（`git status` 只读确认）。
   本轮未执行任何 git 写操作，也未修正该状态；如需清理历史或暂存区，需另行授权。
-- 未修改任何业务项目代码；未改动 `D:\workSpace\ai-create-content` 的插件安装记录与缓存。
+- 未修改任何业务项目代码；未改动 `<business-project>` 的插件安装记录与缓存。
 
 ## 已完成项
 
@@ -156,7 +156,7 @@ shell 下裸执行依赖可执行位与 shebang 解析；与现有 hook 的 `bas
 
 ## 未验证 / 边界
 
-- **没有在真实业务项目 `ai-create-content` 中开会话验证**；只验证了插件源码与临时项目。
+- **没有在真实业务项目中开会话验证**；只验证了插件源码与临时项目。
   该项目的插件安装记录（local scope，缓存 `1.0.0`）保持原样，未被本轮修改。
 - **缓存型安装的直接同步路径只用 fake CLI 模拟过**（写入了 `/tmp` 下的假 installPath），
   没有对一个真实的 Git/URL 市场缓存做端到端验证。目录型市场的原地加载已用真实会话证实。

@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 版本策略：显式语义化版本。每次发布必须递增 `.claude-plugin/plugin.json` 的 `version`；
 `claude plugin update` 按版本号判断，同版本不会拉取新内容。
 
+## [1.0.1] - 2026-11-04
+
+### Added
+
+- `.claude-plugin/icon.png`：512×512 插件图标，清除 `ICON_MISSING` 警告
+
+### Changed
+
+- 从发布树中移除 `backup-2026-11-04-*` 目录（完整历史仍保留在 v1.0.0）
+- 脱敏文档中的本地绝对路径与内部业务项目名
+- README 增加公开仓库安装命令，版本说明更新为 1.0.1
+
 ## [1.0.0] - 2026-11-04
 
 ### Added
