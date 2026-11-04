@@ -6,10 +6,14 @@
   "author": {
     "name": "SamuelYhy"
   },
+  "homepage": "https://github.com/samuelyhy/claude-guard-plugin",
+  "repository": "https://github.com/samuelyhy/claude-guard-plugin",
+  "license": "MIT",
   "keywords": [
     "guard",
     "hooks",
     "review",
     "cache-hygiene"
-  ]
+  ],
+  "defaultEnabled": true
 }

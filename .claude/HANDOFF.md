@@ -1,52 +1,54 @@
 # HANDOFF
 
-基线：HEAD `c3ed834`
+基线：HEAD `9bd6a96`
 更新时间：2026-11-04
 
 ## 目标
 
-完成 claude-guard-plugin 的加固：SessionStart 确定性注入、本地作用域安装规范、缓存更新机制、
-新项目模板向导、零依赖审计、fail-open 无噪声、本地集成验证。
+完成 claude-guard-plugin 的加固与发布前准备：SessionStart 注入、本地作用域安装规范、
+缓存更新机制、零依赖审计、fail-open、发布元数据/文档/marketplace 与模拟安装验证。
 
 ## 已完成（含 commit）
 
-- 本轮未执行 `git add` / `git reset` / `git commit`。插件根在 17:25 由外部进程出现
-  `c3ed834 first commit`（含 `backup-2026-11-04-hardening/`），并已有部分改动处于暂存区；
-  这不是本轮操作，本轮不对其做任何修正。
-- 新增 `scripts/session-start-inject.sh`；`hooks/hooks.json` 追加 SessionStart 条目。
-- 精简 `skills/cache-hygiene/SKILL.md`，任务启动判据改由 hook 注入。
-- 新增 `scripts/dev-update.sh`（按 CLI 2.1.318 实测重设计）。
-- `scripts/audit-post.sh` 增加无 node 降级与分组重定向；其余 4 个 Node 脚本记录依赖基线并静默 stderr。
-- 重写 `README.md`；新增 `hardening-report-2026-11-04.md`。
-- 备份：`backup-2026-11-04-hardening/`（11 个文件）。
+- 加固批次（见 `hardening-report-2026-11-04.md`）：SessionStart 注入、skill 精简、
+  `dev-update.sh`、`audit-post.sh` 降级、README 重写；备份 `backup-2026-11-04-hardening/`。
+- 发布前准备（见 `release-readiness-2026-11-04.md`）：
+  - `plugin.json` 新增 `license=MIT`、`homepage` / `repository`、`defaultEnabled=true`；
+  - 新增 `LICENSE`（MIT）、`CHANGELOG.md`；
+  - README 增加 License / 配置 / 显式版本维护说明；
+  - marketplace 清单沿用 `.claude-plugin/marketplace.json`（`source: "./"`），validate 通过；
+  - 备份 `backup-2026-11-04-release/`。
+- 本轮未执行任何 `git add` / `commit` / `tag` / `push`。外部进程已将工作区推进到 `9bd6a96`。
 
 ## 进行中（文件:行）
 
-- 无。所有改动已落盘并通过最终机械校验。
+- 无。发布前准备文件已落盘。
 
 ## 下一步（可执行）
 
-- 在业务项目 `D:\workSpace\ai-create-content` 开新会话，确认 SessionStart 注入生效
-  （该项目为 local scope 安装，目录型市场原地加载源码）。
-- 作者决定是否添加 `LICENSE` 与插件图标（`validate` 的插件目录提交检查项）。
-- 如需验证缓存型安装：用 Git/URL 市场安装，修改源码后运行 `./scripts/dev-update.sh`，
-  确认 `installPath` 快照内容变化。
+- 手动 `git commit` / `git push`（用户执行）。
+- 确认许可证：当前 MIT；若内部使用改为 `UNLICENSED` 并同步 README。
+- 补插件图标：512–2048 px PNG 到 `.claude-plugin/icon.png` 或 `plugin.json` 的 `icon`。
+- 确认 `description`：当前含 “review agents”，但组件清单 Agents (0)；未擅自改写。
+- 手动删除误建目录 `D:\Users\84111\AppData\Local\Temp\release-test`
+  （安全策略阻止自动删除）。
+- 官方目录提交前在 claude.ai 开发者门户运行 Validate。
 
 ## 未决与坑
 
-- CLI 2.1.318：`plugin update` 按版本号判断，同版本返回 `up_to_date` 且不刷新缓存；
-  `--all-scopes` 不存在（unknown option）。
-- 目录型 marketplace 原地加载 `readFromFolder`，源码改动下一次会话生效，不需要重装。
-- 4 个门禁与 token-watcher 仍依赖 Node；全 POSIX 化需要单独立项重写。
-- 插件根 17:25 出现 `.git/` 与 `c3ed834 first commit`，部分改动已被外部进程暂存；
-  本轮未执行任何 git 写操作。提交包含 `backup-2026-11-04-hardening/`，如需清理历史须另行授权。
-- `validate --strict` 通过，但插件目录提交检查缺 LICENSE / icon。
-- 集成测试用 headless `claude -p`，未测交互式 TUI。
+- CLI 2.1.318：`plugin update` 按版本号判断，同版本 `up_to_date` 不刷新；`--all-scopes` 不存在。
+- 目录型 marketplace 原地加载 `readFromFolder`，源码改动下一次会话生效。
+- 4 个门禁与 token-watcher 仍依赖 Node；全 POSIX 化需单独立项。
+- 插件目录即 marketplace 根（`source: "./"`）；若分离需移动插件并更新安装记录。
+- `validate --strict` 通过；唯一剩余提示是 `ICON_MISSING`。
+- 发布前集成测试用 headless `claude -p`，未测交互式 TUI。
+- 误建 `D:\Users\...\release-test` 目录（只含 `.claude/specs/active.md`），待用户删除。
 
 ## 验证状态
 
-- `sh -n` 全部通过；三个 manifest JSON 解析通过；`claude plugin validate . --strict` exit 0。
-- 真实 headless 会话：模型逐字引用两个注入标题与规格查找顺序；无规格 Write 放行
-  （审计 `allow` / `no-spec`）。
-- fail-open 直测：stdout/stderr 0 字节；`audit-post` 无 node 时写最小审计行。
-- 未验证：真实 Git/URL 市场的缓存同步、交互式 TUI、LICENSE / icon。
+- `sh -n` 全部通过；三个 JSON 解析通过；`plugin validate . --strict` exit 0。
+- 本地 marketplace 模拟安装：`/tmp/release-test` 安装 local 成功；hook 触发 Write 阻断，
+  audit `pre` deny 记录存在；测试后已卸载并删除临时项目。
+- 回归探针：spec allow/deny、bash redirect deny、audit-post 正常与无 node 降级、
+  SessionStart 注入均通过；stdout/stderr 无异常。
+- `plugin details`（`--plugin-dir`）：Hooks 5、Skills 1、Agents 0。

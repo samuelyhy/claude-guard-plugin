@@ -90,6 +90,9 @@ claude --plugin-dir <本仓库路径>
 脚本依次从 PATH 上的 `claude`、`CLAUDE_CODE_EXECPATH`（VSCode 扩展环境通常只设后者）
 寻找 CLI；两者都没有时直接失败，不会静默跳过。
 
+当前使用显式语义化版本（`1.0.0`）：每次发布前递增 `.claude-plugin/plugin.json` 的
+`version`，否则缓存型安装的 `plugin update` 不会拉取新内容。
+
 ## 依赖基线
 
 - `session-start-inject.sh`、`dev-update.sh`：仅 **POSIX sh** 与标准 Unix 工具
@@ -123,7 +126,16 @@ CLAUDE_PROJECT_DIR=/tmp/test ./scripts/session-start-inject.sh
 claude --plugin-dir "$(pwd)"
 ```
 
+## 配置
+
+本插件不管理用户级 `~/.claude/settings.json` 中的 `ANTHROPIC_*` 模型配置、
+`subagentPromptCacheTtl` 或项目特定的 permission denies；这些留在 user / project 层。
+
 ## 刻意不打包的内容
 
 模型路由（`ANTHROPIC_*`）、`subagentPromptCacheTtl`、项目特定的 permission denies，
 以及任何会 stage / commit 改动的 hook，都留在 user 或 project 层配置中，不放进插件。
+
+## License
+
+MIT — see [LICENSE](LICENSE).
