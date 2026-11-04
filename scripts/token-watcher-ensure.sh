@@ -12,6 +12,9 @@
 #   · 这里再加一层节流：每 10 分钟最多碰一次，避免并发竞态与每条 prompt 都起 node；
 #   · 挂在 SessionStart 与 UserPromptSubmit 上，所以会话中途死掉也能被拉回来。
 #   · 全程 fail-open：任何异常都 exit 0，绝不阻塞对话。
+# 依赖基线：node（读取 .cctokens/config.json）。node 不可用 → exit 0，
+#   即 fail-open：watcher 不被拉起，但会话照常进行。不使用 jq / python。
+# 降级纪律：stdout 为空、stderr 静默、永远 exit 0。
 set -u
 command -v node >/dev/null 2>&1 || exit 0
 

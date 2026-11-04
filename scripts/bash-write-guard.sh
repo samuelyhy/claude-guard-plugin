@@ -41,6 +41,9 @@
 #     不产生 v3 那类误报，但把 ask 去掉就等于让 `find -delete` 静默通过。
 #   - .claude/specs/ 与 .claude/state/ 永久放行（契约必须能修订；日志与计数不承载内容）。
 #   - `2>&1` / `/dev/null` / heredoc 分隔符不算写入目标。
+# 依赖基线：node（shell 词法分析 / glob 判定）。node 不可用 → exit 0 放行，
+#   即 fail-open：规则失效但不锁死仓库。不使用 jq / python。
+# 降级纪律：stdout 为空、stderr 静默、永远 exit 0，绝不阻断工具调用。
 set -u
 command -v node >/dev/null 2>&1 || exit 0
 
@@ -638,4 +641,4 @@ function classify(toks) {
   }
 }
 JS
-)"
+)" 2>/dev/null

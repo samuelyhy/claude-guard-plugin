@@ -19,6 +19,9 @@
 #        「第 4 次就放弃」。计数只用于告警，不参与放行判定。
 # stop_hook_active=true（已因本门禁继续过一次）→ 轻量补救分支：不再做 mtime 这类文件系统推断，
 #        只保留直接证据（文件存在 / transcript 里碰过 / 验证命令跑过且有输出）。
+# 依赖基线：node（transcript / 规格解析）。node 不可用 → exit 0 放行，
+#   即 fail-open：门禁失效但不锁死会话。不使用 jq / python。
+# 降级纪律：stdout 为空（除阻断决策外）、stderr 静默、永远 exit 0。
 set -u
 command -v node >/dev/null 2>&1 || exit 0
 
@@ -336,4 +339,4 @@ function bump(root, session, signature) {
   return state.count;
 }
 JS
-)"
+)" 2>/dev/null

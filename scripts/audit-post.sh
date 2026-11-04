@@ -30,8 +30,11 @@ if ! command -v node >/dev/null 2>&1; then
   TOOL=$(sed -n 's/.*"tool_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' 2>/dev/null | head -n 1)
   if [ -n "$TOOL" ]; then
     TS=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || printf '')
-    printf '{"ts":"%s","phase":"post","tool_name":"%s","fallback":"node-unavailable"}\n' \
-      "$TS" "$TOOL" >> "$STATE_DIR/audit.jsonl" 2>/dev/null || true
+    # 分组重定向：`>> 文件` 本身失败时，shell 的报错信息也要被吞掉。
+    # 写成 `printf >> 文件 2>/dev/null` 不够 —— 重定向按左到右建立，
+    # 失败的那一个会先于 2>/dev/null 生效，仍会漏到 stderr。
+    { printf '{"ts":"%s","phase":"post","tool_name":"%s","fallback":"node-unavailable"}\n' \
+        "$TS" "$TOOL" >> "$STATE_DIR/audit.jsonl"; } 2>/dev/null || true
   fi
   exit 0
 fi

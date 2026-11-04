@@ -44,8 +44,10 @@ fi
 # 2) 静态前置门禁：与具体项目无关，始终注入。
 cat <<'EOF'
 ## 任务启动（前置门禁）
-收到任何涉及代码修改的任务时，先检查 `.claude/specs/active.md`。
-不存在则从 `.claude/specs/TEMPLATE.md` 创建，至少填写“涉及文件”和“验证命令”，再开始编辑。
+收到任何涉及代码修改的任务时，先检查规格：查找顺序是 `spec.md` → `docs/plans/` 下最新的 `.md`
+→ `.claude/specs/active.md`；已有 `spec.md` 或 `docs/plans` 规格的项目以它们为准。
+都没有时，从 `.claude/specs/TEMPLATE.md` 创建 `.claude/specs/active.md`，
+至少填写“涉及文件”和“验证命令”，再开始编辑。
 一次性只读分析在回复开头注明“无规格任务”。
 EOF
 

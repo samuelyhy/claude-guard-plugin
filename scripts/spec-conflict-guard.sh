@@ -8,6 +8,9 @@
 #   - 任何解析异常 → 放行并 exit 0。门禁脚本自己坏掉不能把仓库锁死。
 #
 # 规格查找顺序：spec.md → docs/plans/ 下最新的 .md → .claude/specs/active.md
+# 依赖基线：node（结构化 JSON / 路径解析）。node 不可用 → exit 0 放行，
+#   即 fail-open：规则失效但不锁死仓库。不使用 jq / python。
+# 降级纪律：stdout 为空、stderr 静默、永远 exit 0，绝不阻断工具调用。
 set -u
 command -v node >/dev/null 2>&1 || exit 0
 
@@ -176,4 +179,4 @@ function matches(target, entry) {
   return false;
 }
 JS
-)"
+)" 2>/dev/null
