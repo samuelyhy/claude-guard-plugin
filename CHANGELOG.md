@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 版本策略：显式语义化版本。每次发布必须递增 `.claude-plugin/plugin.json` 的 `version`；
 `claude plugin update` 按版本号判断，同版本不会拉取新内容。
 
+## [1.0.2] - 2026-11-04
+
+### Added
+
+- 品牌 Logo：`assets/logo.svg`（矢量源）与 1024×1024 `.claude-plugin/icon.png`
+
+### Changed
+
+- README 顶部展示 Logo
+- 版本说明更新为 1.0.2
+
 ## [1.0.1] - 2026-11-04
 
 ### Added

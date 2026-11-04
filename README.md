@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.svg" width="128" alt="coding-guard logo"></p>
+
 # coding-guard
 
 Claude Code 的跨项目防护插件：规格（spec）优先的文件面门禁、完成门禁、审计记录、
@@ -91,7 +93,7 @@ claude --plugin-dir <本仓库路径>
 脚本依次从 PATH 上的 `claude`、`CLAUDE_CODE_EXECPATH`（VSCode 扩展环境通常只设后者）
 寻找 CLI；两者都没有时直接失败，不会静默跳过。
 
-当前使用显式语义化版本（`1.0.1`）：每次发布前递增 `.claude-plugin/plugin.json` 的
+当前使用显式语义化版本（`1.0.2`）：每次发布前递增 `.claude-plugin/plugin.json` 的
 `version`，否则缓存型安装的 `plugin update` 不会拉取新内容。
 
 ## 依赖基线
